@@ -81,22 +81,16 @@ const DynamicDocumentApp = (() => {
       <div class="common-header">
         <div class="linha-form">
           ${headerField("Professor(a):", "teacher_name")}
-        </div>
-        <div class="linha-form">
           ${headerField("Nome do Aluno:", "student_name")}
-        </div>
-        ${model.header.showDateOfBirth ? `
-          <div class="linha-form">
-            <div class="coluna" style="max-width: 300px;">
-              <label>Data de Nasc.:</label>
-              <input type="text" name="date_of_birth" maxlength="10" data-mask="date" placeholder="DD/MM/AAAA">
-            </div>
+          <div class="coluna">
+            <label>Data de Nascimento:</label>
+            <input type="text" name="date_of_birth" maxlength="10" data-mask="date" placeholder="DD/MM/AAAA">
           </div>
-        ` : ""}
+        </div>
         <div class="linha-form">
-          ${model.header.showSchool ? headerField("Escola:", "school", "select", SCHOOL_OPTIONS) : ""}
-          ${model.header.showGrade ? headerField("Série:", "grade", "select", GRADE_OPTIONS) : ""}
-          ${model.header.showClassroom ? headerField("Turma:", "classroom", "select", CLASSROOM_OPTIONS) : ""}
+          ${headerField("Escola:", "school", "select", SCHOOL_OPTIONS)}
+          ${headerField("Série:", "grade", "select", GRADE_OPTIONS)}
+          ${headerField("Turma:", "classroom", "select", CLASSROOM_OPTIONS)}
         </div>
       </div>
     `;
@@ -419,12 +413,13 @@ const DynamicDocumentApp = (() => {
         .folha-a4 { max-width: 800px; margin: 0 auto; background: white; padding: 28px; box-sizing: border-box; }
         .header-logo { text-align: left; margin-bottom: 20px; }
         .header-logo img { width: 150px; max-width: 150px; display: block; }
-        .common-header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 2px solid #ccc; }
-        .linha-form { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 14px; }
-        .coluna { flex: 1; min-width: 180px; }
-        .doc-title { text-align: center; font-weight: bold; font-size: 20px; margin-bottom: 26px; text-transform: uppercase; }
+        .common-header { margin-bottom: 14px; padding-bottom: 0; border-bottom: none; }
+        .linha-form { display: flex; gap: 12px; flex-wrap: nowrap; margin-bottom: 8px; align-items: flex-end; }
+        .coluna { flex: 1; min-width: 0; }
+        .doc-title { text-align: center; font-weight: bold; font-size: 17px; margin-bottom: 20px; text-transform: uppercase; line-height: 1.25; }
         .form-group { margin-bottom: 18px; }
-        label { font-weight: bold; display: block; margin-bottom: 8px; font-size: 16px; }
+        label { font-weight: bold; display: block; margin-bottom: 3px; font-size: 13px; line-height: 1.2; white-space: nowrap; }
+        input[type="text"], select { font-size: 14px; line-height: 1.2; }
         table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
         th, td { border: 1px solid #000; padding: 7px; text-align: center; font-size: 14px; }
         th { background: #f0f0f0; }
@@ -454,6 +449,14 @@ const DynamicDocumentApp = (() => {
       </head>
       <body>
         <div class="folha-a4">${qs("#documento-final-pdf").innerHTML}</div>
+        <script>
+          window.onload = function () {
+            setTimeout(function () {
+              window.focus();
+              window.print();
+            }, 300);
+          };
+        <\/script>
       </body>
       </html>
     `;
@@ -471,15 +474,6 @@ const DynamicDocumentApp = (() => {
     printWindow.document.write(buildPrintDocument());
     printWindow.document.close();
 
-    if (autoPrint) {
-      printWindow.onload = () => {
-        setTimeout(() => {
-          printWindow.focus();
-          printWindow.print();
-        }, 250);
-      };
-    }
-
     return printWindow;
   }
 
@@ -491,7 +485,11 @@ const DynamicDocumentApp = (() => {
 
   function buildMailto() {
     const subject = encodeURIComponent(model.emailSubject);
-    const body = encodeURIComponent("Olá,\n\nSegue o documento preenchido em PDF.\nSe o arquivo não for anexado automaticamente, selecione o PDF salvo no dispositivo.\n");
+    const studentName = qs('[name="student_name"]')?.value || "Não informado";
+    const teacherName = qs('[name="teacher_name"]')?.value || "Não informado";
+    const body = encodeURIComponent(
+      `Olá,\n\nSegue o documento preenchido em PDF.\n\nAluno: ${studentName}\nProfessor(a): ${teacherName}\n\nSe o arquivo não for anexado automaticamente, selecione o PDF salvo no dispositivo.\n`
+    );
     return `mailto:naee@orindiuva-edu.com?subject=${subject}&body=${body}`;
   }
 
@@ -501,10 +499,10 @@ const DynamicDocumentApp = (() => {
     try {
       if (!previewReady) buildPreview();
       window.location.href = buildMailto();
-      updateStatus("E-mail aberto. Gere ou salve o PDF pela opção de impressão e anexe o arquivo ao enviar.");
+      updateStatus("E-mail aberto para o NAEE. Salve o PDF e anexe o arquivo na mensagem.");
     } catch (error) {
       console.error(error);
-      updateStatus("Não foi possível preparar o envio por e-mail.", "error");
+      updateStatus(error.message || "Não foi possível abrir o e-mail.", "error");
     }
   }
 
