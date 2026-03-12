@@ -32,11 +32,18 @@
     <div id="tela-edicao">
         <div class="folha-a4" id="formulario-base">
             <div class="header-logo"><img src="logo-naee-2.png" alt="NAEE"></div>
+            
             <div class="common-header">
-                <div class="linha-form"><div class="coluna"><label>Professor(a):</label><input type="text"></div><div class="coluna"><label>Escola:</label><select id="select-escola"><option value="">Selecione...</option><option value="creche.png">Creche Escola Karina de Amorim Silva</option><option value="la-logo.png">E.M.E.I. Luiz Adriano da Costa</option><option value="oaf-logo.png">E.M.Prof. Osvaldo Alves Ferreira</option><option value="jm-logo.png">E.M.E. F. Joaquim Mendonça</option></select></div></div>
-                <div class="linha-form"><div class="coluna-maior"><label>Nome do Aluno:</label><input type="text"></div><div class="coluna"><label>Data de Nasc.:</label><input type="text" placeholder="DD/MM/AAAA" maxlength="10" oninput="mascaraData(this)"></div></div>
-                <div class="linha-form"><div class="coluna"><label>Série:</label><select><option value="">Selecione...</option><option>Berçário I</option><option>Berçário II</option><option>Maternal I</option><option>Maternal II</option><option>PRÉ I</option><option>PRÉ II</option><option>1º ANO</option><option>2º ANO</option><option>3º ANO</option><option>4º ANO</option><option>5º ANO</option><option>6º ANO</option><option>7º ANO</option><option>8º ANO</option><option>9º ANO</option></select></div><div class="coluna"><label>Turma:</label><select><option value="">Selecione...</option><option>VERDE</option><option>AMARELO</option><option>AZUL</option><option>VERMELHO</option><option>BRANCO</option></select></div></div>
+                <div class="linha-form"><div class="coluna"><label>Professor(a):</label><input type="text" placeholder="Nome do(a) professor(a)"></div></div>
+                <div class="linha-form"><div class="coluna"><label>Nome do Aluno:</label><input type="text" placeholder="Nome completo do aluno"></div></div>
+                <div class="linha-form"><div class="coluna" style="max-width: 300px;"><label>Data de Nasc.:</label><input type="text" placeholder="DD/MM/AAAA" maxlength="10" oninput="mascaraData(this)"></div></div>
+                <div class="linha-form">
+                    <div class="coluna-maior"><label>Escola:</label><select id="select-escola" onchange="atualizarLogoEscola()"><option value="">Selecione a escola...</option><option value="creche.png">Creche Escola Karina de Amorim Silva</option><option value="la-logo.png">E.M.E.I. Luiz Adriano da Costa</option><option value="oaf-logo.png">E.M.Prof. Osvaldo Alves Ferreira</option><option value="jm-logo.png">E.M.E. F. Joaquim Mendonça</option></select></div>
+                    <div class="coluna"><label>Série:</label><select><option value="">Selecione...</option><option>Berçário I</option><option>Berçário II</option><option>Maternal I</option><option>Maternal II</option><option>PRÉ I</option><option>PRÉ II</option><option>1º ANO</option><option>2º ANO</option><option>3º ANO</option><option>4º ANO</option><option>5º ANO</option><option>6º ANO</option><option>7º ANO</option><option>8º ANO</option><option>9º ANO</option></select></div>
+                    <div class="coluna"><label>Turma:</label><select><option value="">Selecione...</option><option>VERDE</option><option>AMARELO</option><option>AZUL</option><option>VERMELHO</option><option>BRANCO</option></select></div>
+                </div>
             </div>
+
             <div class="doc-title">MONITORAMENTO DE HABILIDADES BÁSICAS (MATEMÁTICA)</div>
             <div class="form-group"><label>1. Motivo do Acompanhamento:</label><div class="checkbox-group"><label><input type="checkbox"> Dificuldade de aprendizagem</label><label><input type="checkbox"> Aluno laudado</label><label><input type="checkbox"> Defasagem pedagógica</label><label><input type="checkbox"> Questões comportamentais</label><label><input type="checkbox"> Outro: <input type="text" style="width: auto;"></label></div></div>
             <div class="form-group"><label>2. Avaliação Diagnóstica Inicial:</label><div class="checkbox-group" style="display: flex; gap: 15px;"><label><input type="radio" name="nivel"> Dentro do esperado</label><label><input type="radio" name="nivel"> Leve defasagem</label><label><input type="radio" name="nivel"> Defasagem significativa</label></div></div>
@@ -47,6 +54,7 @@
             <div class="form-group"><label>3. Estratégias Pedagógicas:</label><div class="checkbox-group"><label><input type="checkbox"> Atividades/avaliações adaptadas</label><label><input type="checkbox"> Atividades/avaliações flexibilizadas</label><label><input type="checkbox"> Redução de quantidade</label><label><input type="checkbox"> Apoio visual</label><label><input type="checkbox"> Mediação individual</label><label><input type="checkbox"> Tempo ampliado</label><label><input type="checkbox"> Outro: <input type="text" style="width: auto;"></label></div></div>
             <div class="form-group"><label>4. Reavaliação</label><div style="width: 200px;"><input type="text" placeholder="DD/MM/AAAA" maxlength="10" oninput="mascaraData(this)"></div></div>
         </div>
+        
         <div class="no-print-controls" style="margin-top: 20px;">
             <button onclick="window.location.href='index.html'" class="btn btn-back">Voltar ao Menu</button>
             <button onclick="gerarEspelho()" class="btn btn-preview">Concluir e Ver Documento Pronto</button>

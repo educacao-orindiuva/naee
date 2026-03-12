@@ -46,10 +46,43 @@
     <div id="tela-edicao">
         <div class="folha-a4" id="formulario-base">
             <div class="header-logo"><img src="logo-naee-2.png" alt="NAEE"></div>
+            
             <div class="common-header">
-                <div class="linha-form"><div class="coluna"><label>Professor(a):</label><input type="text"></div><div class="coluna"><label>Escola:</label><select id="select-escola"><option value="">Selecione...</option><option value="creche.png">Creche Escola Karina de Amorim Silva</option><option value="la-logo.png">E.M.E.I. Luiz Adriano da Costa</option><option value="oaf-logo.png">E.M.Prof. Osvaldo Alves Ferreira</option><option value="jm-logo.png">E.M.E. F. Joaquim Mendonça</option></select></div></div>
-                <div class="linha-form"><div class="coluna-maior"><label>Nome do Aluno:</label><input type="text"></div><div class="coluna"><label>Data de Nasc.:</label><input type="text" placeholder="DD/MM/AAAA" maxlength="10" oninput="mascaraData(this)"></div></div>
-                <div class="linha-form"><div class="coluna"><label>Série:</label><select><option value="">Selecione...</option><option>Berçário I</option><option>Berçário II</option><option>Maternal I</option><option>Maternal II</option><option>PRÉ I</option><option>PRÉ II</option><option>1º ANO</option><option>2º ANO</option><option>3º ANO</option><option>4º ANO</option><option>5º ANO</option><option>6º ANO</option><option>7º ANO</option><option>8º ANO</option><option>9º ANO</option></select></div><div class="coluna"><label>Turma:</label><select><option value="">Selecione...</option><option>VERDE</option><option>AMARELO</option><option>AZUL</option><option>VERMELHO</option><option>BRANCO</option></select></div></div>
+                <div class="linha-form">
+                    <div class="coluna"><label>Professor(a):</label><input type="text" placeholder="Nome do(a) professor(a)"></div>
+                </div>
+                <div class="linha-form">
+                    <div class="coluna"><label>Nome do Aluno:</label><input type="text" placeholder="Nome completo do aluno"></div>
+                </div>
+                <div class="linha-form">
+                    <div class="coluna" style="max-width: 300px;"><label>Data de Nasc.:</label><input type="text" placeholder="DD/MM/AAAA" maxlength="10" oninput="mascaraData(this)"></div>
+                </div>
+                <div class="linha-form">
+                    <div class="coluna-maior">
+                        <label>Escola:</label>
+                        <select id="select-escola" onchange="atualizarLogoEscola()">
+                            <option value="">Selecione a escola...</option>
+                            <option value="creche.png">Creche Escola Karina de Amorim Silva</option>
+                            <option value="la-logo.png">E.M.E.I. Luiz Adriano da Costa</option>
+                            <option value="oaf-logo.png">E.M.Prof. Osvaldo Alves Ferreira</option>
+                            <option value="jm-logo.png">E.M.E. F. Joaquim Mendonça</option>
+                        </select>
+                    </div>
+                    <div class="coluna">
+                        <label>Série:</label>
+                        <select>
+                            <option value="">Selecione...</option>
+                            <option>Berçário I</option><option>Berçário II</option><option>Maternal I</option><option>Maternal II</option><option>PRÉ I</option><option>PRÉ II</option><option>1º ANO</option><option>2º ANO</option><option>3º ANO</option><option>4º ANO</option><option>5º ANO</option><option>6º ANO</option><option>7º ANO</option><option>8º ANO</option><option>9º ANO</option>
+                        </select>
+                    </div>
+                    <div class="coluna">
+                        <label>Turma:</label>
+                        <select>
+                            <option value="">Selecione...</option>
+                            <option>VERDE</option><option>AMARELO</option><option>AZUL</option><option>VERMELHO</option><option>BRANCO</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
             <div class="doc-title">PLANO EDUCACIONAL INDIVIDUALIZADO (PEI)</div>
@@ -60,8 +93,8 @@
             <div class="form-group"><label>5. Recursos:</label><textarea></textarea></div>
             <div class="form-group"><label>6. Avaliação:</label><div class="checkbox-group"><label><input type="checkbox"> Avaliação oral</label><label><input type="checkbox"> Avaliação em partes</label><label><input type="checkbox"> Avaliação adaptada (mesmo conteúdo)</label><label><input type="checkbox"> Avaliação diferenciada (conteúdo diferente)</label><label><input type="checkbox"> Observação contínua com registro</label></div></div>
             
-            <p style="font-size: 14px; text-align: justify; margin-top: 30px; border-top: 1px solid #ccc; padding-top: 10px;"><strong>7. Acompanhamento e Revisão:</strong> Este Plano Educacional Individualizado será acompanhado de forma contínua ao longo do ano letivo...</p>
-            <p style="font-size: 14px; text-align: justify;"><strong>8. Consideração Final:</strong> Este Plano Educacional Individualizado tem caráter pedagógico, orientador e processual...</p>
+            <p style="font-size: 14px; text-align: justify; margin-top: 30px; border-top: 1px solid #ccc; padding-top: 10px;"><strong>7. Acompanhamento e Revisão:</strong> Este Plano Educacional Individualizado será acompanhado de forma contínua ao longo do ano letivo, com registros pedagógicos realizados pelos professores da sala regular, conforme sua área de atuação, e orientações do AEE. Ao final de cada bimestre, o PEI será revisado, podendo sofrer ajustes nos objetivos, estratégias e adaptações, de acordo com a evolução, necessidades e respostas apresentadas pelo estudante.</p>
+            <p style="font-size: 14px; text-align: justify;"><strong>8. Consideração Final:</strong> Este Plano Educacional Individualizado tem caráter pedagógico, orientador e processual, devendo ser utilizado como referência para o trabalho desenvolvido na sala regular, em articulação com o AEE, assegurando o acesso, a participação e a aprendizagem do estudante.</p>
         </div>
         
         <div class="no-print-controls" style="margin-top: 20px;">
