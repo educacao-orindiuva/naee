@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>PEI - Sistema NAEE</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root { --primary: #4CAF50; --bg: #e9ecef; --text: #333; }
+        body { font-family: Arial, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        .no-print-controls { max-width: 800px; margin: 0 auto 20px auto; display: flex; gap: 10px; }
+        .btn { flex: 1; padding: 12px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; text-align: center; text-decoration: none; }
+        .btn-back { background-color: #6c757d; color: white; } .btn-pdf { background-color: var(--primary); color: white; }
+        #documento-pdf { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 8px; }
+        .header-logo { text-align: center; margin-bottom: 20px; } .header-logo img { max-width: 300px; }
+        .common-header { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #ccc; }
+        .linha-form { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 15px; } .coluna { flex: 1; min-width: 200px; } .coluna-maior { flex: 2; min-width: 300px; }
+        .doc-title { text-align: center; font-weight: bold; font-size: 20px; margin-bottom: 30px; text-transform: uppercase; }
+        .form-group { margin-bottom: 15px; } label { font-weight: bold; display: block; margin-bottom: 5px; font-size: 16px; }
+        input[type="text"], select { width: 100%; padding: 8px; border: none; border-bottom: 1px solid #000; background: transparent; font-size: 16px; outline: none; box-sizing: border-box; }
+        textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; min-height: 80px; resize: vertical; outline: none; box-sizing: border-box;}
+        .checkbox-group label { font-weight: normal; display: block; margin-bottom: 8px; cursor: pointer; }
+        .rodape-oficial { margin-top: 50px; padding-top: 15px; border-top: 2px solid #ccc; text-align: center; }
+        .logos-rodape { display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 15px; flex-wrap: wrap; }
+        .logos-rodape img { max-height: 70px; display: block; } #logo-escola-rodape { display: none; }
+        .data-hora-rodape { font-size: 13px; color: #555; font-style: italic; }
+        @media (max-width: 600px) { #documento-pdf { padding: 15px; } .linha-form { flex-direction: column; gap: 10px; } .logos-rodape img { max-height: 50px; } }
+    </style>
+</head>
+<body>
+    <div class="no-print-controls"><a href="index.html" class="btn btn-back">⬅ Menu</a><button onclick="gerarPDF('PEI_NAEE.pdf')" class="btn btn-pdf">Baixar e Enviar PDF Documento</button></div>
+    
+    <div id="documento-pdf">
+        <div class="header-logo"><img src="logo-naee-2.png" alt="NAEE"></div>
+        <div class="common-header">
+            <div class="linha-form"><div class="coluna"><label>Professor(a):</label><input type="text"></div><div class="coluna"><label>Escola:</label><select id="select-escola" onchange="atualizarLogoEscola()"><option value="">Selecione a escola...</option><option value="creche.png">Creche Escola Karina de Amorim Silva</option><option value="la-logo.png">E.M.E.I. Luiz Adriano da Costa</option><option value="oaf-logo.png">E.M.Prof. Osvaldo Alves Ferreira</option><option value="jm-logo.png">E.M.E. F. Joaquim Mendonça</option></select></div></div>
+            <div class="linha-form"><div class="coluna-maior"><label>Nome do Aluno:</label><input type="text"></div><div class="coluna"><label>Data de Nasc.:</label><input type="text" placeholder="DD/MM/AAAA" maxlength="10" oninput="mascaraData(this)"></div></div>
+            <div class="linha-form"><div class="coluna"><label>Série:</label><select><option value="">Selecione...</option><option>Berçário I</option><option>Berçário II</option><option>Maternal I</option><option>Maternal II</option><option>PRÉ I</option><option>PRÉ II</option><option>1º ANO</option><option>2º ANO</option><option>3º ANO</option><option>4º ANO</option><option>5º ANO</option><option>6º ANO</option><option>7º ANO</option><option>8º ANO</option><option>9º ANO</option></select></div><div class="coluna"><label>Turma:</label><select><option value="">Selecione...</option><option>VERDE</option><option>AMARELO</option><option>AZUL</option><option>VERMELHO</option><option>BRANCO</option></select></div></div>
+        </div>
+
+        <div class="doc-title">PLANO EDUCACIONAL INDIVIDUALIZADO (PEI)</div>
+        <div class="form-group"><label>1. Síntese de Observação do aluno:</label><textarea></textarea></div>
+        <div class="form-group"><label>2. Objetivos Gerais:</label><textarea></textarea></div>
+        <div class="form-group"><label>3. Objetivos Específicos:</label><textarea></textarea></div>
+        <div class="form-group"><label>4. Adaptações Pedagógicas:</label><textarea></textarea></div>
+        <div class="form-group"><label>5. Recursos:</label><textarea></textarea></div>
+        <div class="form-group"><label>6. Avaliação:</label><div class="checkbox-group"><label><input type="checkbox"> Avaliação oral</label><label><input type="checkbox"> Avaliação em partes</label><label><input type="checkbox"> Avaliação adaptada (mesmo conteúdo)</label><label><input type="checkbox"> Avaliação diferenciada (conteúdo diferente)</label><label><input type="checkbox"> Observação contínua com registro</label></div></div>
+        
+        <p style="font-size: 14px; text-align: justify; margin-top: 30px; border-top: 1px solid #ccc; padding-top: 10px;"><strong>7. Acompanhamento e Revisão:</strong> Este Plano Educacional Individualizado será acompanhado de forma contínua ao longo do ano letivo, com registros pedagógicos realizados pelos professores da sala regular, conforme sua área de atuação, e orientações do AEE. Ao final de cada bimestre, o PEI será revisado, podendo sofrer ajustes nos objetivos, estratégias e adaptações, de acordo com a evolução, necessidades e respostas apresentadas pelo estudante.</p>
+        <p style="font-size: 14px; text-align: justify;"><strong>8. Consideração Final:</strong> Este Plano Educacional Individualizado tem caráter pedagógico, orientador e processual, devendo ser utilizado como referência para o trabalho desenvolvido na sala regular, em articulação com o AEE, assegurando o acesso, a participação e a aprendizagem do estudante.</p>
+
+        <div class="rodape-oficial"><div class="logos-rodape"><img src="orindiuva-logo.png" alt="Prefeitura"><img src="sme-logo.png" alt="SME"><img src="logo-naee-2.png" alt="NAEE"><img id="logo-escola-rodape" src="" alt="Escola"></div><div class="data-hora-rodape" id="data-hora-rodape"></div></div>
+    </div>
+
+    <div class="no-print-controls" style="margin-top: 20px;"><a href="index.html" class="btn btn-back">⬅ Menu</a><button onclick="gerarPDF('PEI_NAEE.pdf')" class="btn btn-pdf">Baixar e Enviar PDF Documento</button></div>
+
+    <script>
+        function atualizarLogoEscola() { const sel = document.getElementById('select-escola'); const img = document.getElementById('logo-escola-rodape'); if(sel.value) { img.src = sel.value; img.style.display = 'block'; } else { img.style.display = 'none'; } }
+        function mascaraData(input) { let v = input.value.replace(/\D/g, ''); if (v.length > 2) v = v.substring(0, 2) + '/' + v.substring(2); if (v.length > 5) v = v.substring(0, 5) + '/' + v.substring(5, 9); input.value = v; }
+        function gerarPDF(nomeArquivo) { 
+            const d = new Date(); let ext = d.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('data-hora-rodape').innerText = `Documento gerado a: ${ext.charAt(0).toUpperCase() + ext.slice(1)} às ${d.toLocaleTimeString('pt-BR')}`;
+            const element = document.getElementById('documento-pdf');
+            const textareas = element.querySelectorAll('textarea'); textareas.forEach(ta => { ta.style.height = ta.scrollHeight + 'px'; });
+            html2pdf().set({margin: 10, filename: nomeArquivo, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }}).from(element).save().then(() => { textareas.forEach(ta => { ta.style.height = 'auto'; }); }); 
+        } 
+    </script>
+</body>
+</html>

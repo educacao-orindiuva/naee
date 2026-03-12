@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Principal - Sistema NAEE</title>
+    <style>
+        :root { --primary: #4CAF50; --primary-hover: #45a049; --bg: #f4f7f6; --text: #333; }
+        body { font-family: Arial, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        
+        .menu-container { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 650px; width: 100%; text-align: center; }
+        .logo-principal { max-width: 300px; margin-bottom: 10px; }
+        
+        #saudacao { font-size: 28px; color: var(--primary); margin-bottom: 5px; margin-top: 10px; }
+        #data-hora { font-size: 15px; color: #777; margin-top: 0; margin-bottom: 30px; }
+        h1 { font-size: 20px; margin-bottom: 20px; color: #555; font-weight: bold; }
+        
+        .menu-btn { display: block; background-color: var(--primary); color: white; text-decoration: none; padding: 16px; margin-bottom: 12px; border-radius: 5px; font-size: 16px; font-weight: bold; transition: background 0.3s; }
+        .menu-btn:hover { background-color: var(--primary-hover); }
+
+        /* Estilos do Rodapé do Menu (Logos Maiores) */
+        .rodape-index { margin-top: 40px; padding-top: 20px; border-top: 2px solid #eee; display: flex; justify-content: center; align-items: center; gap: 30px; flex-wrap: wrap; }
+        .rodape-index img { max-height: 90px; display: block; } /* Tamanho alterado de 65px para 90px */
+    </style>
+</head>
+<body>
+    <div class="menu-container">
+        <img src="logo-naee-2.png" alt="Logo NAEE" class="logo-principal">
+        
+        <h2 id="saudacao">Olá!</h2>
+        <p id="data-hora"></p>
+        
+        <h1>Selecione o documento para preencher:</h1>
+        
+        <a href="pei.html" class="menu-btn">Plano Educacional Individualizado (PEI)</a>
+        <a href="matematica_inicial.html" class="menu-btn">Monitoramento Hab. Básicas (Matemática - Inicial)</a>
+        <a href="matematica_bimestral.html" class="menu-btn">Monitoramento Bimestral (Matemática e Geometria)</a>
+        <a href="portugues_inicial.html" class="menu-btn">Monitoramento Hab. Básicas (Português - Inicial)</a>
+        <a href="geral_bimestral.html" class="menu-btn">Monitoramento Bimestral (Habilidades Básicas)</a>
+        <a href="portugues_bimestral.html" class="menu-btn">Monitoramento Bimestral (Português)</a>
+
+        <div class="rodape-index">
+            <img src="orindiuva-logo.png" alt="Prefeitura Municipal de Orindiúva">
+            <img src="sme-logo.png" alt="Secretaria Municipal da Educação">
+        </div>
+    </div>
+
+    <script>
+        function atualizarRelogio() {
+            const agora = new Date();
+            const hora = agora.getHours();
+            let saudacaoTexto = "Bom dia!";
+            if (hora >= 12 && hora < 18) { saudacaoTexto = "Boa tarde!"; } 
+            else if (hora >= 18 || hora < 5) { saudacaoTexto = "Boa noite!"; }
+            document.getElementById('saudacao').innerText = saudacaoTexto;
+
+            const opcoesData = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            let dataFormatada = agora.toLocaleDateString('pt-BR', opcoesData);
+            dataFormatada = dataFormatada.charAt(0).toUpperCase() + dataFormatada.slice(1);
+            const horaFormatada = agora.toLocaleTimeString('pt-BR');
+            document.getElementById('data-hora').innerText = dataFormatada + " - " + horaFormatada;
+        }
+        atualizarRelogio();
+        setInterval(atualizarRelogio, 1000);
+    </script>
+</body>
+</html>
