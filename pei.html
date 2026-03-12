@@ -6,36 +6,29 @@
     <title>PEI - Sistema NAEE</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        :root { --primary: #4CAF50; --bg: #e9ecef; --text: #333; --primary-hover: #45a049; }
+        :root { --primary: #4CAF50; --bg: #e9ecef; --text: #333; }
         body { font-family: Arial, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; }
         
-        .no-print-controls { max-width: 800px; margin: 0 auto 20px auto; display: flex; gap: 10px; flex-wrap: wrap; }
-        .btn { flex: 1; padding: 15px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; text-align: center; text-decoration: none; color: white; min-width: 200px; }
+        .no-print-controls { max-width: 800px; margin: 0 auto; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        .btn { flex: 1; padding: 15px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; text-align: center; color: white; min-width: 200px; }
         .btn-back { background-color: #6c757d; }
         .btn-preview { background-color: #008CBA; }
         .btn-pdf { background-color: var(--primary); }
-        .btn-share { background-color: #25D366; }
-        .btn-email { background-color: #f44336; }
         .btn:hover { opacity: 0.9; }
 
-        /* Estilo da Folha A4 */
         .folha-a4 { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        
-        /* Evita que blocos de texto sejam cortados na metade da página no PDF */
         .form-group, .rodape-oficial, table tr { page-break-inside: avoid !important; }
-
+        
         .header-logo { text-align: center; margin-bottom: 20px; } .header-logo img { max-width: 300px; }
         .common-header { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #ccc; }
         .linha-form { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 15px; } .coluna { flex: 1; min-width: 200px; } .coluna-maior { flex: 2; min-width: 300px; }
         .doc-title { text-align: center; font-weight: bold; font-size: 20px; margin-bottom: 30px; text-transform: uppercase; }
         .form-group { margin-bottom: 20px; } label { font-weight: bold; display: block; margin-bottom: 8px; font-size: 16px; }
         
-        /* Campos de Formulário Edição */
         input[type="text"], select { width: 100%; padding: 8px; border: none; border-bottom: 1px solid #000; background: transparent; font-size: 16px; outline: none; box-sizing: border-box; }
         textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; min-height: 120px; resize: vertical; outline: none; box-sizing: border-box; font-family: Arial, sans-serif;}
         .checkbox-group label { font-weight: normal; display: block; margin-bottom: 8px; cursor: pointer; }
         
-        /* Estilos aplicados APENAS na visualização final (Espelho) */
         .texto-injetado { font-weight: bold; border-bottom: 1px solid #000; display: inline-block; min-width: 50px; padding: 0 5px; color: #000; }
         .textarea-injetado { font-weight: normal; padding: 15px; border: 1px solid #ddd; background-color: #fafafa; border-radius: 5px; margin-top: 5px; text-align: justify; word-wrap: break-word; white-space: pre-wrap; font-size: 16px; line-height: 1.5; }
         .check-injetado { font-weight: bold; margin-right: 5px; }
@@ -51,172 +44,85 @@
 <body>
 
     <div id="tela-edicao">
-        <div class="no-print-controls">
-            <a href="index.html" class="btn btn-back">⬅ Voltar ao Menu</a>
-            <button onclick="gerarEspelho()" class="btn btn-preview">👁️ Ver Documento Pronto</button>
-        </div>
-        
         <div class="folha-a4" id="formulario-base">
             <div class="header-logo"><img src="logo-naee-2.png" alt="NAEE"></div>
-            
             <div class="common-header">
-                <div class="linha-form">
-                    <div class="coluna"><label>Professor(a):</label><input type="text" placeholder="Nome completo"></div>
-                    <div class="coluna">
-                        <label>Escola:</label>
-                        <select id="select-escola">
-                            <option value="">Selecione a escola...</option>
-                            <option value="creche.png">Creche Escola Karina de Amorim Silva</option>
-                            <option value="la-logo.png">E.M.E.I. Luiz Adriano da Costa</option>
-                            <option value="oaf-logo.png">E.M.Prof. Osvaldo Alves Ferreira</option>
-                            <option value="jm-logo.png">E.M.E. F. Joaquim Mendonça</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="linha-form">
-                    <div class="coluna-maior"><label>Nome do Aluno:</label><input type="text" placeholder="Nome completo do aluno"></div>
-                    <div class="coluna"><label>Data de Nasc.:</label><input type="text" placeholder="DD/MM/AAAA" maxlength="10" oninput="mascaraData(this)"></div>
-                </div>
-                <div class="linha-form">
-                    <div class="coluna">
-                        <label>Série:</label>
-                        <select>
-                            <option value="">Selecione...</option><option>Berçário I</option><option>Berçário II</option><option>Maternal I</option><option>Maternal II</option><option>PRÉ I</option><option>PRÉ II</option><option>1º ANO</option><option>2º ANO</option><option>3º ANO</option><option>4º ANO</option><option>5º ANO</option><option>6º ANO</option><option>7º ANO</option><option>8º ANO</option><option>9º ANO</option>
-                        </select>
-                    </div>
-                    <div class="coluna">
-                        <label>Turma:</label>
-                        <select>
-                            <option value="">Selecione...</option><option>VERDE</option><option>AMARELO</option><option>AZUL</option><option>VERMELHO</option><option>BRANCO</option>
-                        </select>
-                    </div>
-                </div>
+                <div class="linha-form"><div class="coluna"><label>Professor(a):</label><input type="text"></div><div class="coluna"><label>Escola:</label><select id="select-escola"><option value="">Selecione...</option><option value="creche.png">Creche Escola Karina de Amorim Silva</option><option value="la-logo.png">E.M.E.I. Luiz Adriano da Costa</option><option value="oaf-logo.png">E.M.Prof. Osvaldo Alves Ferreira</option><option value="jm-logo.png">E.M.E. F. Joaquim Mendonça</option></select></div></div>
+                <div class="linha-form"><div class="coluna-maior"><label>Nome do Aluno:</label><input type="text"></div><div class="coluna"><label>Data de Nasc.:</label><input type="text" placeholder="DD/MM/AAAA" maxlength="10" oninput="mascaraData(this)"></div></div>
+                <div class="linha-form"><div class="coluna"><label>Série:</label><select><option value="">Selecione...</option><option>Berçário I</option><option>Berçário II</option><option>Maternal I</option><option>Maternal II</option><option>PRÉ I</option><option>PRÉ II</option><option>1º ANO</option><option>2º ANO</option><option>3º ANO</option><option>4º ANO</option><option>5º ANO</option><option>6º ANO</option><option>7º ANO</option><option>8º ANO</option><option>9º ANO</option></select></div><div class="coluna"><label>Turma:</label><select><option value="">Selecione...</option><option>VERDE</option><option>AMARELO</option><option>AZUL</option><option>VERMELHO</option><option>BRANCO</option></select></div></div>
             </div>
 
             <div class="doc-title">PLANO EDUCACIONAL INDIVIDUALIZADO (PEI)</div>
-            <div class="form-group"><label>1. Síntese de Observação do aluno:</label><textarea placeholder="Digite o texto aqui... Sem limite de tamanho."></textarea></div>
-            <div class="form-group"><label>2. Objetivos Gerais:</label><textarea placeholder="Digite o texto aqui..."></textarea></div>
-            <div class="form-group"><label>3. Objetivos Específicos:</label><textarea placeholder="Digite o texto aqui..."></textarea></div>
-            <div class="form-group"><label>4. Adaptações Pedagógicas:</label><textarea placeholder="Digite o texto aqui..."></textarea></div>
-            <div class="form-group"><label>5. Recursos:</label><textarea placeholder="Digite o texto aqui..."></textarea></div>
-            <div class="form-group"><label>6. Avaliação:</label>
-                <div class="checkbox-group">
-                    <label><input type="checkbox"> Avaliação oral</label>
-                    <label><input type="checkbox"> Avaliação em partes</label>
-                    <label><input type="checkbox"> Avaliação adaptada (mesmo conteúdo)</label>
-                    <label><input type="checkbox"> Avaliação diferenciada (conteúdo diferente)</label>
-                    <label><input type="checkbox"> Observação contínua com registro</label>
-                </div>
-            </div>
+            <div class="form-group"><label>1. Síntese de Observação do aluno:</label><textarea></textarea></div>
+            <div class="form-group"><label>2. Objetivos Gerais:</label><textarea></textarea></div>
+            <div class="form-group"><label>3. Objetivos Específicos:</label><textarea></textarea></div>
+            <div class="form-group"><label>4. Adaptações Pedagógicas:</label><textarea></textarea></div>
+            <div class="form-group"><label>5. Recursos:</label><textarea></textarea></div>
+            <div class="form-group"><label>6. Avaliação:</label><div class="checkbox-group"><label><input type="checkbox"> Avaliação oral</label><label><input type="checkbox"> Avaliação em partes</label><label><input type="checkbox"> Avaliação adaptada (mesmo conteúdo)</label><label><input type="checkbox"> Avaliação diferenciada (conteúdo diferente)</label><label><input type="checkbox"> Observação contínua com registro</label></div></div>
             
             <p style="font-size: 14px; text-align: justify; margin-top: 30px; border-top: 1px solid #ccc; padding-top: 10px;"><strong>7. Acompanhamento e Revisão:</strong> Este Plano Educacional Individualizado será acompanhado de forma contínua ao longo do ano letivo...</p>
             <p style="font-size: 14px; text-align: justify;"><strong>8. Consideração Final:</strong> Este Plano Educacional Individualizado tem caráter pedagógico, orientador e processual...</p>
         </div>
         
         <div class="no-print-controls" style="margin-top: 20px;">
-            <button onclick="gerarEspelho()" class="btn btn-preview" style="width: 100%;">👁️ Concluir e Ver Documento Pronto</button>
+            <button onclick="window.location.href='index.html'" class="btn btn-back">Voltar ao Menu</button>
+            <button onclick="gerarEspelho()" class="btn btn-preview">Concluir e Ver Documento Pronto</button>
         </div>
     </div>
 
-
     <div id="tela-preview" style="display: none;">
+        <div class="folha-a4" id="documento-final-pdf"></div>
         
-        <div class="no-print-controls">
-            <button onclick="voltarEdicao()" class="btn btn-back">⬅ Voltar e Editar</button>
-            <button onclick="baixarPDF('PEI_NAEE.pdf')" class="btn btn-pdf">💾 Baixar PDF</button>
-            <button onclick="compartilharPDF('PEI_NAEE.pdf')" class="btn btn-share">📲 Enviar WhatsApp</button>
-            <button onclick="enviarEmail()" class="btn btn-email">📧 Enviar por E-mail</button>
-        </div>
-
-        <div class="folha-a4" id="documento-final-pdf">
-            </div>
-
         <div class="no-print-controls" style="margin-top: 20px;">
-            <button onclick="compartilharPDF('PEI_NAEE.pdf')" class="btn btn-share" style="width: 100%;">📲 Enviar WhatsApp</button>
+            <button onclick="voltarEdicao()" class="btn btn-back">Voltar e Editar</button>
+            <button onclick="baixarPDF('PEI_NAEE.pdf')" class="btn btn-pdf">Baixar e Enviar PDF</button>
+            <button onclick="enviarEmail()" class="btn btn-pdf">Enviar por E-mail</button>
         </div>
     </div>
 
     <script>
-        function mascaraData(input) { 
-            let v = input.value.replace(/\D/g, ''); 
-            if (v.length > 2) v = v.substring(0, 2) + '/' + v.substring(2); 
-            if (v.length > 5) v = v.substring(0, 5) + '/' + v.substring(5, 9); 
-            input.value = v; 
-        }
+        function mascaraData(input) { let v = input.value.replace(/\D/g, ''); if (v.length > 2) v = v.substring(0, 2) + '/' + v.substring(2); if (v.length > 5) v = v.substring(0, 5) + '/' + v.substring(5, 9); input.value = v; }
 
-        // Função que cria o ESPELHO do documento transformando inputs em texto
         function gerarEspelho() {
             const form = document.getElementById('formulario-base');
             const previewContainer = document.getElementById('documento-final-pdf');
-            
-            // Clona o formulário inteiro
             const clone = form.cloneNode(true);
             clone.id = "conteudo-limpo";
 
-            // 1. Processar Inputs de Texto
             const inputsOriginais = form.querySelectorAll('input[type="text"]');
             const inputsClonados = clone.querySelectorAll('input[type="text"]');
-            inputsClonados.forEach((input, i) => {
-                const span = document.createElement('span');
-                span.className = 'texto-injetado';
-                span.innerText = inputsOriginais[i].value || '___________________';
-                input.parentNode.replaceChild(span, input);
-            });
+            inputsClonados.forEach((input, i) => { const span = document.createElement('span'); span.className = 'texto-injetado'; span.innerText = inputsOriginais[i].value || '___________________'; input.parentNode.replaceChild(span, input); });
 
-            // 2. Processar Selects (Escola, Série, Turma)
             const selectsOriginais = form.querySelectorAll('select');
             const selectsClonados = clone.querySelectorAll('select');
             let escolaImg = "";
             selectsClonados.forEach((select, i) => {
-                const span = document.createElement('span');
-                span.className = 'texto-injetado';
+                const span = document.createElement('span'); span.className = 'texto-injetado';
                 const original = selectsOriginais[i];
-                
                 if (original.id === 'select-escola') { escolaImg = original.value; }
-                
                 span.innerText = original.selectedIndex > 0 ? original.options[original.selectedIndex].text : '___________________';
                 select.parentNode.replaceChild(span, select);
             });
 
-            // 3. Processar Textareas (Respostas Grandes) - Evita cortes
             const textareasOriginais = form.querySelectorAll('textarea');
             const textareasClonados = clone.querySelectorAll('textarea');
-            textareasClonados.forEach((ta, i) => {
-                const div = document.createElement('div');
-                div.className = 'textarea-injetado';
-                div.innerText = textareasOriginais[i].value || '(Sem resposta)';
-                ta.parentNode.replaceChild(div, ta);
-            });
+            textareasClonados.forEach((ta, i) => { const div = document.createElement('div'); div.className = 'textarea-injetado'; div.innerText = textareasOriginais[i].value || '(Sem resposta)'; ta.parentNode.replaceChild(div, ta); });
 
-            // 4. Processar Checkboxes
             const checksOriginais = form.querySelectorAll('input[type="checkbox"], input[type="radio"]');
             const checksClonados = clone.querySelectorAll('input[type="checkbox"], input[type="radio"]');
-            checksClonados.forEach((chk, i) => {
-                const span = document.createElement('span');
-                span.className = 'check-injetado';
-                span.innerText = checksOriginais[i].checked ? '[ X ]' : '[   ]';
-                chk.parentNode.replaceChild(span, chk);
-            });
+            checksClonados.forEach((chk, i) => { const span = document.createElement('span'); span.className = 'check-injetado'; span.innerText = checksOriginais[i].checked ? '[ X ]' : '[   ]'; chk.parentNode.replaceChild(span, chk); });
 
-            // 5. Adicionar Rodapé Oficial com Data/Hora e Logos
             const d = new Date(); 
             let dataExtenso = d.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
             dataExtenso = dataExtenso.charAt(0).toUpperCase() + dataExtenso.slice(1);
             
             const rodapeHTML = `
                 <div class="rodape-oficial">
-                    <div class="logos-rodape">
-                        <img src="orindiuva-logo.png" alt="Prefeitura">
-                        <img src="sme-logo.png" alt="SME">
-                        <img src="logo-naee-2.png" alt="NAEE">
-                        ${escolaImg ? `<img src="${escolaImg}" alt="Escola">` : ''}
-                    </div>
-                    <div class="data-hora-rodape">Documento gerado e validado pelo sistema NAEE em: ${dataExtenso} às ${d.toLocaleTimeString('pt-BR')}</div>
-                </div>
-            `;
+                    <div class="logos-rodape"><img src="orindiuva-logo.png" alt="Prefeitura"><img src="sme-logo.png" alt="SME"><img src="logo-naee-2.png" alt="NAEE">${escolaImg ? '<img src="' + escolaImg + '" alt="Escola">' : ''}</div>
+                    <div class="data-hora-rodape">Documento gerado pelo sistema NAEE em: ${dataExtenso} as ${d.toLocaleTimeString('pt-BR')}</div>
+                </div>`;
             clone.insertAdjacentHTML('beforeend', rodapeHTML);
 
-            // Injeta no HTML e troca de tela
             previewContainer.innerHTML = '';
             previewContainer.appendChild(clone);
             
@@ -225,61 +131,13 @@
             window.scrollTo(0,0);
         }
 
-        function voltarEdicao() {
-            document.getElementById('tela-preview').style.display = 'none';
-            document.getElementById('tela-edicao').style.display = 'block';
-        }
-
-        // Opções do Gerador de PDF
-        function getPdfOptions(nomeArquivo) {
-            return {
-                margin:       10,
-                filename:     nomeArquivo,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                // ISSO AQUI RESOLVE O CORTE DE TEXTO ENTRE AS PÁGINAS!
-                pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] } 
-            };
-        }
-
+        function voltarEdicao() { document.getElementById('tela-preview').style.display = 'none'; document.getElementById('tela-edicao').style.display = 'block'; }
         function baixarPDF(nomeArquivo) {
-            const element = document.getElementById('documento-final-pdf');
-            html2pdf().set(getPdfOptions(nomeArquivo)).from(element).save();
+            html2pdf().set({ margin: 10, filename: nomeArquivo, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }, pagebreak: { mode: ['avoid-all', 'css', 'legacy'] } }).from(document.getElementById('documento-final-pdf')).save();
         }
-
-        // API de Compartilhamento Nativo (WhatsApp)
-        async function compartilharPDF(nomeArquivo) {
-            const element = document.getElementById('documento-final-pdf');
-            
-            try {
-                // Gera o PDF como um arquivo na memória
-                const pdfBlob = await html2pdf().set(getPdfOptions(nomeArquivo)).from(element).output('blob');
-                const file = new File([pdfBlob], nomeArquivo, { type: 'application/pdf' });
-
-                // Verifica se o celular suporta compartilhar arquivos diretamente (Android/iOS)
-                if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                    await navigator.share({
-                        files: [file],
-                        title: 'Documento NAEE',
-                        text: 'Segue em anexo o relatório gerado pelo sistema NAEE.'
-                    });
-                } else {
-                    alert("Seu navegador não suporta compartilhamento direto. O arquivo será baixado no seu celular, e você poderá enviá-lo pelo WhatsApp da sua galeria.");
-                    baixarPDF(nomeArquivo);
-                }
-            } catch (error) {
-                console.log(error);
-                alert("Iniciando o download do arquivo...");
-                baixarPDF(nomeArquivo);
-            }
-        }
-
         function enviarEmail() {
-            const assunto = encodeURIComponent("Novo Documento Preenchido - NAEE");
-            const corpo = encodeURIComponent("Olá,\n\nO documento foi preenchido no sistema NAEE.\nPor favor, encontre o PDF gerado em anexo a este e-mail (anexe o arquivo que acabou de ser baixado no seu celular/computador).\n\nAtenciosamente.");
-            window.location.href = `mailto:naee@orindiuva-edu.com?subject=${assunto}&body=${corpo}`;
-            alert("Lembre-se de baixar o PDF e anexá-lo ao e-mail que acabou de abrir!");
+            window.location.href = "mailto:naee@orindiuva-edu.com?subject=Novo Documento NAEE&body=Ola,%0A%0ASegue em anexo o documento preenchido.%0A(Lembre-se de anexar o PDF que acabou de baixar)%0A%0AAtenciosamente.";
+            alert("Lembre-se de anexar o PDF salvo ao e-mail!");
         }
     </script>
 </body>
