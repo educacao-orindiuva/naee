@@ -412,32 +412,81 @@ const DynamicDocumentApp = (() => {
     qs("#tela-edicao").style.display = "block";
   }
 
-  async function pdfBlob() {
+  function buildPrintDocument() {
+    const styles = `
+      <style>
+        body { font-family: Arial, sans-serif; color: #333; margin: 0; padding: 0; background: #fff; }
+        .folha-a4 { max-width: 800px; margin: 0 auto; background: white; padding: 28px; box-sizing: border-box; }
+        .header-logo { text-align: left; margin-bottom: 20px; }
+        .header-logo img { width: 150px; max-width: 150px; display: block; }
+        .common-header { margin-bottom: 26px; padding-bottom: 18px; border-bottom: 2px solid #ccc; }
+        .linha-form { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 14px; }
+        .coluna { flex: 1; min-width: 180px; }
+        .doc-title { text-align: center; font-weight: bold; font-size: 20px; margin-bottom: 26px; text-transform: uppercase; }
+        .form-group { margin-bottom: 18px; }
+        label { font-weight: bold; display: block; margin-bottom: 8px; font-size: 16px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #000; padding: 7px; text-align: center; font-size: 14px; }
+        th { background: #f0f0f0; }
+        td:first-child { text-align: left; }
+        .texto-injetado { font-weight: bold; border-bottom: 1px solid #000; display: inline-block; min-width: 40px; padding: 0 5px; color: #000; }
+        .textarea-injetado { padding: 12px; border: 1px solid #ddd; background: #fafafa; border-radius: 4px; margin-top: 5px; text-align: justify; white-space: pre-wrap; font-size: 15px; line-height: 1.45; }
+        .check-injetado { font-weight: bold; margin-right: 5px; }
+        .assinaturas { display: flex; justify-content: space-between; margin-top: 36px; text-align: center; flex-wrap: wrap; gap: 12px; }
+        .assinatura-box { flex: 1; min-width: 160px; margin-bottom: 14px; padding: 0 8px; }
+        .assinatura-linha { border-top: 1px solid #000; padding-top: 5px; font-size: 14px; font-weight: bold; }
+        .rodape-oficial { margin-top: 42px; padding-top: 14px; border-top: 2px solid #ccc; text-align: center; }
+        .logos-rodape { display: flex; justify-content: center; align-items: center; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
+        .logos-rodape img { max-height: 60px; display: block; }
+        .data-hora-rodape { font-size: 12px; color: #555; font-style: italic; }
+        @page { size: A4; margin: 10mm; }
+        .form-group, .rodape-oficial, table tr { page-break-inside: avoid; break-inside: avoid; }
+      </style>
+    `;
+
+    return `
+      <!DOCTYPE html>
+      <html lang="pt-BR">
+      <head>
+        <meta charset="UTF-8">
+        <title>${model.title}</title>
+        ${styles}
+      </head>
+      <body>
+        <div class="folha-a4">${qs("#documento-final-pdf").innerHTML}</div>
+      </body>
+      </html>
+    `;
+  }
+
+  function openPrintWindow(autoPrint = true) {
     if (!previewReady) buildPreview();
-    return html2pdf().set({
-      margin: 10,
-      filename: fileName(),
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-      pagebreak: { mode: ["avoid-all", "css", "legacy"] },
-    }).from(qs("#documento-final-pdf")).outputPdf("blob");
+    const printWindow = window.open("", "_blank", "width=900,height=1200");
+    if (!printWindow) {
+      updateStatus("O navegador bloqueou a janela de impressão. Permita pop-ups e tente novamente.", "error");
+      return null;
+    }
+
+    printWindow.document.open();
+    printWindow.document.write(buildPrintDocument());
+    printWindow.document.close();
+
+    if (autoPrint) {
+      printWindow.onload = () => {
+        setTimeout(() => {
+          printWindow.focus();
+          printWindow.print();
+        }, 250);
+      };
+    }
+
+    return printWindow;
   }
 
   async function downloadPdf() {
     if (!validate()) return;
-    if (!previewReady) buildPreview();
-
-    await html2pdf().set({
-      margin: 10,
-      filename: fileName(),
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-      pagebreak: { mode: ["avoid-all", "css", "legacy"] },
-    }).from(qs("#documento-final-pdf")).save();
-
-    updateStatus("PDF salvo com sucesso.");
+    openPrintWindow(true);
+    updateStatus(`Use a opção "Salvar em PDF" na janela de impressão para gerar o arquivo ${fileName()}.`);
   }
 
   function buildMailto() {
@@ -450,22 +499,9 @@ const DynamicDocumentApp = (() => {
     if (!validate()) return;
 
     try {
-      const blob = await pdfBlob();
-      const file = new File([blob], fileName(), { type: "application/pdf" });
-
-      if (navigator.canShare && navigator.share && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          title: model.title,
-          text: "Compartilhe o PDF preenchido.",
-          files: [file],
-        });
-        updateStatus("PDF preparado para compartilhamento.");
-        return;
-      }
-
-      await downloadPdf();
+      if (!previewReady) buildPreview();
       window.location.href = buildMailto();
-      updateStatus("E-mail aberto. Se necessário, anexe o PDF salvo.");
+      updateStatus("E-mail aberto. Gere ou salve o PDF pela opção de impressão e anexe o arquivo ao enviar.");
     } catch (error) {
       console.error(error);
       updateStatus("Não foi possível preparar o envio por e-mail.", "error");
