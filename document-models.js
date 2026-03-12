@@ -1,0 +1,550 @@
+const DOCUMENT_MODELS = {
+  pei: {
+    id: "pei",
+    title: "Plano Educacional Individualizado (PEI)",
+    fileNameBase: "PEI_NAEE",
+    emailSubject: "PEI preenchido - Sistema NAEE",
+    header: {
+      showDateOfBirth: true,
+      showSchool: true,
+      showGrade: true,
+      showClassroom: true,
+    },
+    sections: [
+      {
+        type: "textarea_group",
+        fields: [
+          { id: "observacao", label: "1. Síntese de Observação do aluno", required: true },
+          { id: "objetivos_gerais", label: "2. Objetivos Gerais", required: true },
+          { id: "objetivos_especificos", label: "3. Objetivos Específicos", required: true },
+          { id: "adaptacoes", label: "4. Adaptações Pedagógicas", required: true },
+          { id: "recursos", label: "5. Recursos", required: true },
+        ],
+      },
+      {
+        type: "checkbox_group",
+        label: "6. Avaliação",
+        options: [
+          "Avaliação oral",
+          "Avaliação em partes",
+          "Avaliação adaptada (mesmo conteúdo)",
+          "Avaliação diferenciada (conteúdo diferente)",
+          "Observação contínua com registro",
+        ],
+      },
+      {
+        type: "static_text",
+        paragraphs: [
+          "<strong>7. Acompanhamento e Revisão:</strong> Este Plano Educacional Individualizado será acompanhado de forma contínua ao longo do ano letivo, com registros pedagógicos realizados pelos professores da sala regular, conforme sua área de atuação, e orientações do AEE. Ao final de cada bimestre, o PEI será revisado, podendo sofrer ajustes nos objetivos, estratégias e adaptações, de acordo com a evolução, necessidades e respostas apresentadas pelo estudante.",
+          "<strong>8. Consideração Final:</strong> Este Plano Educacional Individualizado tem caráter pedagógico, orientador e processual, devendo ser utilizado como referência para o trabalho desenvolvido na sala regular, em articulação com o AEE, assegurando o acesso, a participação e a aprendizagem do estudante.",
+        ],
+      },
+    ],
+  },
+  matematica_inicial: {
+    id: "matematica_inicial",
+    title: "Monitoramento Hab. Básicas (Matemática - Inicial)",
+    fileNameBase: "Matematica_Inicial",
+    emailSubject: "Monitoramento de Matematica preenchido - Sistema NAEE",
+    header: {
+      showDateOfBirth: true,
+      showSchool: true,
+      showGrade: true,
+      showClassroom: true,
+    },
+    sections: [
+      {
+        type: "checkbox_group",
+        label: "1. Motivo do Acompanhamento",
+        options: [
+          "Dificuldade de aprendizagem",
+          "Aluno laudado",
+          "Defasagem pedagógica",
+          "Questões comportamentais",
+        ],
+        otherLabel: "Outro",
+      },
+      {
+        type: "radio_group",
+        label: "2. Avaliação Diagnóstica Inicial",
+        options: ["Dentro do esperado", "Leve defasagem", "Defasagem significativa"],
+      },
+      {
+        type: "matrix_radio",
+        title: "LEITURA",
+        columns: ["Não realiza", "Em dev.", "Sim"],
+        rows: [
+          "Lê pequenos textos",
+          "Compreende ideia principal",
+          "Localiza informações no texto",
+        ],
+      },
+      {
+        type: "matrix_radio",
+        title: "MATEMÁTICA",
+        columns: ["Não realiza", "Em dev.", "Sim"],
+        rows: [
+          "Lê e escreve números",
+          "Resolve adição simples",
+          "Resolve subtração simples",
+          "Compreende multiplicação",
+          "Resolve problemas simples",
+        ],
+      },
+      {
+        type: "matrix_radio",
+        title: "ORGANIZAÇÃO E AUTONOMIA",
+        columns: ["Não realiza", "Em dev.", "Sim"],
+        rows: [
+          "Organiza materiais",
+          "Inicia atividade sozinho",
+          "Mantém atenção",
+          "Finaliza tarefas",
+        ],
+      },
+      {
+        type: "matrix_radio",
+        title: "HABILIDADES SOCIOEMOCIONAIS",
+        columns: ["Não realiza", "Em dev.", "Sim"],
+        rows: [
+          "Respeita combinados",
+          "Trabalha em grupo",
+          "Pede ajuda quando necessário",
+          "Lida com frustração",
+        ],
+      },
+      {
+        type: "checkbox_group",
+        label: "3. Estratégias Pedagógicas",
+        options: [
+          "Atividades/avaliações adaptadas",
+          "Atividades/avaliações flexibilizadas",
+          "Redução de quantidade",
+          "Apoio visual",
+          "Mediação individual",
+          "Tempo ampliado",
+        ],
+        otherLabel: "Outro",
+      },
+      {
+        type: "single_input",
+        label: "4. Reavaliação",
+        inputType: "date",
+      },
+    ],
+  },
+  portugues_inicial: {
+    id: "portugues_inicial",
+    title: "Monitoramento Hab. Básicas (Português - Inicial)",
+    fileNameBase: "Portugues_Inicial",
+    emailSubject: "Monitoramento de Portugues preenchido - Sistema NAEE",
+    header: {
+      showDateOfBirth: true,
+      showSchool: true,
+      showGrade: true,
+      showClassroom: true,
+    },
+    sections: [
+      {
+        type: "checkbox_group",
+        label: "1. Motivo do Acompanhamento",
+        options: [
+          "Dificuldade de aprendizagem",
+          "Aluno laudado",
+          "Defasagem pedagógica",
+          "Questões comportamentais",
+        ],
+        otherLabel: "Outro",
+      },
+      {
+        type: "radio_group",
+        label: "2. Avaliação Diagnóstica Inicial",
+        options: ["Dentro do esperado", "Leve defasagem", "Defasagem significativa"],
+      },
+      {
+        type: "matrix_radio",
+        title: "LEITURA",
+        columns: ["Não realiza", "Em dev.", "Sim"],
+        rows: [
+          "Lê pequenos textos",
+          "Compreende ideia principal",
+          "Localiza informações no texto",
+        ],
+      },
+      {
+        type: "matrix_radio",
+        title: "ESCRITA",
+        columns: ["Não realiza", "Em dev.", "Sim"],
+        rows: [
+          "Segmenta palavras corretamente",
+          "Produz frases com sentido",
+          "Produz pequeno parágrafo",
+        ],
+      },
+      {
+        type: "matrix_radio",
+        title: "ORGANIZAÇÃO E AUTONOMIA",
+        columns: ["Não realiza", "Em dev.", "Sim"],
+        rows: [
+          "Organiza materiais",
+          "Inicia atividade sozinho",
+          "Mantém atenção",
+          "Finaliza tarefas",
+        ],
+      },
+      {
+        type: "matrix_radio",
+        title: "HABILIDADES SOCIOEMOCIONAIS",
+        columns: ["Não realiza", "Em dev.", "Sim"],
+        rows: [
+          "Respeita combinados",
+          "Trabalha em grupo",
+          "Pede ajuda quando necessário",
+          "Lida com frustração",
+        ],
+      },
+      {
+        type: "checkbox_group",
+        label: "3. Estratégias Pedagógicas",
+        options: [
+          "Atividades/avaliações adaptadas",
+          "Atividades/avaliações flexibilizadas",
+          "Redução de quantidade",
+          "Apoio visual",
+          "Mediação individual",
+          "Tempo ampliado",
+        ],
+        otherLabel: "Outro",
+      },
+      {
+        type: "single_input",
+        label: "4. Reavaliação",
+        inputType: "date",
+      },
+    ],
+  },
+  matematica_bimestral: {
+    id: "matematica_bimestral",
+    title: "Monitoramento Bimestral (Matemática e Geometria)",
+    fileNameBase: "Matematica_Bimestral",
+    emailSubject: "Monitoramento bimestral de Matematica preenchido - Sistema NAEE",
+    header: {
+      showDateOfBirth: true,
+      showSchool: true,
+      showGrade: true,
+      showClassroom: true,
+    },
+    sections: [
+      {
+        type: "checkbox_group",
+        label: "1. Motivo do Acompanhamento",
+        options: [
+          "Dificuldade de aprendizagem",
+          "Aluno laudado",
+          "Defasagem pedagógica",
+          "Questões comportamentais",
+        ],
+        otherLabel: "Outro",
+      },
+      {
+        type: "radio_group",
+        label: "2. Avaliação Diagnóstica Inicial",
+        options: ["Dentro do esperado", "Leve defasagem", "Defasagem significativa"],
+      },
+      {
+        type: "legend",
+        text: "LEGENDA: S (Sim) | N (Não)",
+      },
+      {
+        type: "matrix_text",
+        title: "LEITURA",
+        columns: ["1º bim", "2º bim", "3º bim", "4º bim"],
+        rows: [
+          "Lê pequenos textos",
+          "Compreende ideia principal",
+          "Localiza informações no texto",
+        ],
+      },
+      {
+        type: "matrix_text",
+        title: "MATEMÁTICA",
+        columns: ["1º bim", "2º bim", "3º bim", "4º bim"],
+        rows: [
+          "Resolve adição simples",
+          "Resolve subtração simples",
+          "Resolve multiplicação",
+          "Resolve divisão",
+          "Resolve problemas simples",
+        ],
+      },
+      {
+        type: "matrix_text",
+        title: "GEOMETRIA",
+        columns: ["1º bim", "2º bim", "3º bim", "4º bim"],
+        rows: [
+          "Identifica figuras geométricas",
+          "Localização e lateralidade",
+          "Identifica grandezas/medidas",
+          "Identifica medidas de tempo",
+          "Compreende sistema monetário",
+          "Compreende dados de gráficos",
+        ],
+      },
+      {
+        type: "matrix_text",
+        title: "ORGANIZAÇÃO E AUTONOMIA",
+        columns: ["1º bim", "2º bim", "3º bim", "4º bim"],
+        rows: [
+          "Organiza materiais",
+          "Inicia atividade sozinho",
+          "Mantém atenção",
+          "Finaliza tarefas",
+        ],
+      },
+      {
+        type: "matrix_text",
+        title: "HABILIDADES SOCIOEMOCIONAIS",
+        columns: ["1º bim", "2º bim", "3º bim", "4º bim"],
+        rows: [
+          "Respeita combinados",
+          "Trabalha em grupo",
+          "Pede ajuda quando necessário",
+          "Lida com frustração",
+        ],
+      },
+      {
+        type: "checkbox_group",
+        label: "3. Estratégias Pedagógicas",
+        options: [
+          "Atividades/avaliações adaptadas",
+          "Atividades/avaliações flexibilizadas",
+          "Apoio visual",
+          "Mediação individual",
+          "Tempo ampliado",
+        ],
+        otherLabel: "Outro",
+      },
+      {
+        type: "city_date_signature",
+        city: "Orindiúva",
+        signatures: ["Professor", "Professor de AEE", "Assistente Pedagógico", "Diretor"],
+      },
+    ],
+  },
+  geral_bimestral: {
+    id: "geral_bimestral",
+    title: "Monitoramento Bimestral (Habilidades Básicas)",
+    fileNameBase: "Geral_Bimestral",
+    emailSubject: "Monitoramento bimestral preenchido - Sistema NAEE",
+    header: {
+      showDateOfBirth: true,
+      showSchool: true,
+      showGrade: true,
+      showClassroom: true,
+    },
+    sections: [
+      {
+        type: "checkbox_group",
+        label: "1. Motivo do Acompanhamento",
+        options: [
+          "Dificuldade de aprendizagem",
+          "Aluno laudado",
+          "Defasagem pedagógica",
+          "Questões comportamentais",
+        ],
+        otherLabel: "Outro",
+      },
+      {
+        type: "radio_group",
+        label: "2. Avaliação Diagnóstica Inicial",
+        options: ["Dentro do esperado", "Leve defasagem", "Defasagem significativa"],
+      },
+      {
+        type: "legend",
+        text: "LEGENDA: S (Sim) | N (Não)",
+      },
+      {
+        type: "matrix_text",
+        title: "LEITURA",
+        columns: ["1º bim", "2º bim", "3º bim", "4º bim"],
+        rows: [
+          "Lê pequenos textos",
+          "Compreende ideia principal",
+          "Localiza informações no texto",
+        ],
+      },
+      {
+        type: "matrix_text",
+        title: "ESCRITA",
+        columns: ["1º bim", "2º bim", "3º bim", "4º bim"],
+        rows: [
+          "Copia da lousa",
+          "Produz frases com sentido",
+          "Responde adequadamente as atividades",
+        ],
+      },
+      {
+        type: "matrix_text",
+        title: "ORGANIZAÇÃO E AUTONOMIA",
+        columns: ["1º bim", "2º bim", "3º bim", "4º bim"],
+        rows: [
+          "Organiza materiais",
+          "Inicia atividade sozinho",
+          "Mantém atenção",
+          "Finaliza tarefas",
+        ],
+      },
+      {
+        type: "matrix_text",
+        title: "HABILIDADES SOCIOEMOCIONAIS",
+        columns: ["1º bim", "2º bim", "3º bim", "4º bim"],
+        rows: [
+          "Respeita combinados",
+          "Trabalha em grupo",
+          "Pede ajuda quando necessário",
+          "Lida com frustração",
+        ],
+      },
+      {
+        type: "checkbox_group",
+        label: "3. Estratégias Pedagógicas",
+        options: [
+          "Atividades/avaliações adaptadas",
+          "Atividades/avaliações flexibilizadas",
+          "Apoio visual",
+          "Mediação individual",
+          "Tempo ampliado",
+        ],
+        otherLabel: "Outro",
+      },
+      {
+        type: "signature_only",
+        signatures: ["Professor", "Professor de AEE", "Assistente Pedagógico", "Diretor"],
+      },
+    ],
+  },
+  portugues_bimestral: {
+    id: "portugues_bimestral",
+    title: "Monitoramento Bimestral (Português)",
+    fileNameBase: "Portugues_Bimestral",
+    emailSubject: "Monitoramento bimestral de Portugues preenchido - Sistema NAEE",
+    header: {
+      showDateOfBirth: true,
+      showSchool: true,
+      showGrade: true,
+      showClassroom: true,
+    },
+    sections: [
+      {
+        type: "checkbox_group",
+        label: "1. Motivo do Acompanhamento",
+        options: [
+          "Dificuldade de aprendizagem",
+          "Aluno laudado",
+          "Defasagem pedagógica",
+          "Questões comportamentais",
+        ],
+        otherLabel: "Outro",
+      },
+      {
+        type: "radio_group",
+        label: "2. Avaliação Diagnóstica Inicial",
+        options: ["Dentro do esperado", "Leve defasagem", "Defasagem significativa"],
+      },
+      {
+        type: "legend",
+        text: "LEGENDA: S (Sim) | N (Não)",
+      },
+      {
+        type: "matrix_text",
+        title: "LEITURA",
+        columns: ["1º bim", "2º bim", "3º bim", "4º bim"],
+        rows: [
+          "Lê pequenos textos",
+          "Compreende ideia principal",
+          "Localiza informações no texto",
+        ],
+      },
+      {
+        type: "matrix_text",
+        title: "ESCRITA",
+        columns: ["1º bim", "2º bim", "3º bim", "4º bim"],
+        rows: [
+          "Copia da lousa",
+          "Produz frases com sentido",
+          "Produz pequeno parágrafo",
+          "Realiza produção com coesão/coerência",
+          "Identifica os gêneros textuais",
+        ],
+      },
+      {
+        type: "matrix_text",
+        title: "ORGANIZAÇÃO E AUTONOMIA",
+        columns: ["1º bim", "2º bim", "3º bim", "4º bim"],
+        rows: [
+          "Organiza materiais",
+          "Inicia atividade sozinho",
+          "Mantém atenção",
+          "Finaliza tarefas",
+        ],
+      },
+      {
+        type: "matrix_text",
+        title: "HABILIDADES SOCIOEMOCIONAIS",
+        columns: ["1º bim", "2º bim", "3º bim", "4º bim"],
+        rows: [
+          "Respeita combinados",
+          "Trabalha em grupo",
+          "Pede ajuda quando necessário",
+          "Lida com frustração",
+        ],
+      },
+      {
+        type: "checkbox_group",
+        label: "3. Estratégias Pedagógicas",
+        options: [
+          "Atividades/avaliações adaptadas",
+          "Atividades/avaliações flexibilizadas",
+          "Apoio visual",
+          "Mediação individual",
+          "Tempo ampliado",
+        ],
+        otherLabel: "Outro",
+      },
+      {
+        type: "city_date_signature",
+        city: "Orindiúva",
+        signatures: ["Professor", "Professor de AEE", "Assistente Pedagógico", "Diretor"],
+      },
+    ],
+  },
+};
+
+const SCHOOL_OPTIONS = [
+  { value: "", label: "Selecione a escola..." },
+  { value: "creche.png", label: "Creche Escola Karina de Amorim Silva" },
+  { value: "la-logo.png", label: "E.M.E.I. Luiz Adriano da Costa" },
+  { value: "oaf-logo.png", label: "E.M.Prof. Osvaldo Alves Ferreira" },
+  { value: "jm-logo.png", label: "E.M.E. F. Joaquim Mendonça" },
+];
+
+const GRADE_OPTIONS = [
+  "",
+  "Berçário I",
+  "Berçário II",
+  "Maternal I",
+  "Maternal II",
+  "PRÉ I",
+  "PRÉ II",
+  "1º ANO",
+  "2º ANO",
+  "3º ANO",
+  "4º ANO",
+  "5º ANO",
+  "6º ANO",
+  "7º ANO",
+  "8º ANO",
+  "9º ANO",
+];
+
+const CLASSROOM_OPTIONS = ["", "VERDE", "AMARELO", "AZUL", "VERMELHO", "BRANCO"];

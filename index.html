@@ -4,44 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu Principal - Sistema NAEE</title>
+    <link rel="stylesheet" href="document-app.css?v=2">
     <style>
         :root { --primary: #4CAF50; --primary-hover: #45a049; --bg: #f4f7f6; --text: #333; }
-        body { font-family: Arial, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        
-        .menu-container { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 650px; width: 100%; text-align: center; }
-        .logo-principal { max-width: 300px; margin-bottom: 10px; }
-        
-        #saudacao { font-size: 28px; color: var(--primary); margin-bottom: 5px; margin-top: 10px; }
-        #data-hora { font-size: 15px; color: #777; margin-top: 0; margin-bottom: 30px; }
-        h1 { font-size: 20px; margin-bottom: 20px; color: #555; font-weight: bold; }
-        
-        .menu-btn { display: block; background-color: var(--primary); color: white; text-decoration: none; padding: 16px; margin-bottom: 12px; border-radius: 5px; font-size: 16px; font-weight: bold; transition: background 0.3s; }
-        .menu-btn:hover { background-color: var(--primary-hover); }
-
-        /* Estilos do Rodapé do Menu (Logos Maiores) */
-        .rodape-index { margin-top: 40px; padding-top: 20px; border-top: 2px solid #eee; display: flex; justify-content: center; align-items: center; gap: 30px; flex-wrap: wrap; }
-        .rodape-index img { max-height: 90px; display: block; } /* Tamanho alterado de 65px para 90px */
+        .menu-container { display: none; }
     </style>
 </head>
-<body>
-    <div class="menu-container">
-        <img src="logo-naee-2.png" alt="Logo NAEE" class="logo-principal">
-        
-        <h2 id="saudacao">Olá!</h2>
-        <p id="data-hora"></p>
-        
-        <h1>Selecione o documento para preencher:</h1>
-        
-        <a href="pei.html" class="menu-btn">Plano Educacional Individualizado (PEI)</a>
-        <a href="matematica_inicial.html" class="menu-btn">Monitoramento Hab. Básicas (Matemática - Inicial)</a>
-        <a href="matematica_bimestral.html" class="menu-btn">Monitoramento Bimestral (Matemática e Geometria)</a>
-        <a href="portugues_inicial.html" class="menu-btn">Monitoramento Hab. Básicas (Português - Inicial)</a>
-        <a href="geral_bimestral.html" class="menu-btn">Monitoramento Bimestral (Habilidades Básicas)</a>
-        <a href="portugues_bimestral.html" class="menu-btn">Monitoramento Bimestral (Português)</a>
+<body class="menu-page">
+    <div class="dashboard-shell">
+        <div class="menu-simple">
+            <img src="logo-naee-2.png" alt="Logo NAEE" class="logo-principal">
+            <h1 id="saudacao">Olá!</h1>
+            <p id="data-hora"></p>
 
-        <div class="rodape-index">
-            <img src="orindiuva-logo.png" alt="Prefeitura Municipal de Orindiúva">
-            <img src="sme-logo.png" alt="Secretaria Municipal da Educação">
+            <div class="menu-list">
+                <a href="documento.html?model=pei">Plano Educacional Individualizado (PEI)</a>
+                <a href="documento.html?model=matematica_inicial">Monitoramento Hab. Básicas (Matemática - Inicial)</a>
+                <a href="documento.html?model=matematica_bimestral">Monitoramento Bimestral (Matemática e Geometria)</a>
+                <a href="documento.html?model=portugues_inicial">Monitoramento Hab. Básicas (Português - Inicial)</a>
+                <a href="documento.html?model=geral_bimestral">Monitoramento Bimestral (Habilidades Básicas)</a>
+                <a href="documento.html?model=portugues_bimestral">Monitoramento Bimestral (Português)</a>
+            </div>
+
+            <div class="brand-strip">
+                <img src="orindiuva-logo.png" alt="Prefeitura Municipal de Orindiúva">
+                <img src="sme-logo.png" alt="Secretaria Municipal da Educação">
+            </div>
         </div>
     </div>
 

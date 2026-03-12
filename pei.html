@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PEI - Sistema NAEE</title>
+    <link rel="stylesheet" href="document-app.css?v=2">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="document-form-system.js"></script>
+    <script src="document-form-system.js?v=2"></script>
     <style>
         :root { --primary: #4CAF50; --bg: #e9ecef; --text: #333; }
         body { font-family: Arial, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; }
@@ -42,8 +43,8 @@
         @media (max-width: 600px) { .folha-a4 { padding: 15px; } .linha-form { flex-direction: column; gap: 10px; } .logos-rodape img { max-height: 50px; } }
     </style>
 </head>
-<body>
-
+<body class="form-page">
+    <div class="form-shell">
     <div id="tela-edicao">
         <div class="folha-a4" id="formulario-base">
             <div class="header-logo"><img src="logo-naee-2.png" alt="NAEE"></div>
@@ -114,10 +115,12 @@
         </div>
         <div id="status-envio" class="folha-a4" style="display: none; margin-top: 20px; padding: 18px;"></div>
     </div>
+    </div>
 
     <script>
         DocumentFormSystem.init({
             fileName: 'PEI_NAEE.pdf',
+            fileNameBase: 'PEI_NAEE',
             emailTo: 'naee@orindiuva-edu.com',
             emailSubject: 'PEI preenchido - Sistema NAEE'
         });

@@ -2,7 +2,9 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Português Inicial - Sistema NAEE</title>
+    <link rel="stylesheet" href="document-app.css?v=2">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="document-form-system.js?v=2"></script>
     <style>
         :root { --primary: #4CAF50; --bg: #e9ecef; --text: #333; }
         body { font-family: Arial, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; }
@@ -28,7 +30,8 @@
         @media (max-width: 600px) { .folha-a4 { padding: 15px; } .linha-form { flex-direction: column; gap: 10px; } .logos-rodape img { max-height: 50px; } }
     </style>
 </head>
-<body>
+<body class="form-page">
+    <div class="form-shell">
     <div id="tela-edicao">
         <div class="folha-a4" id="formulario-base">
             <div class="header-logo"><img src="logo-naee-2.png" alt="NAEE"></div>
@@ -36,7 +39,7 @@
             <div class="common-header">
                 <div class="linha-form"><div class="coluna"><label>Professor(a):</label><input type="text" placeholder="Nome do(a) professor(a)"></div></div>
                 <div class="linha-form"><div class="coluna"><label>Nome do Aluno:</label><input type="text" placeholder="Nome completo do aluno"></div></div>
-                <div class="linha-form"><div class="coluna" style="max-width: 300px;"><label>Data de Nasc.:</label><input type="text" placeholder="DD/MM/AAAA" maxlength="10" oninput="mascaraData(this)"></div></div>
+                <div class="linha-form"><div class="coluna" style="max-width: 300px;"><label>Data de Nasc.:</label><input type="text" placeholder="DD/MM/AAAA" maxlength="10" oninput="DocumentFormSystem.maskDate(this)"></div></div>
                 <div class="linha-form">
                     <div class="coluna-maior"><label>Escola:</label><select id="select-escola" onchange="atualizarLogoEscola()"><option value="">Selecione a escola...</option><option value="creche.png">Creche Escola Karina de Amorim Silva</option><option value="la-logo.png">E.M.E.I. Luiz Adriano da Costa</option><option value="oaf-logo.png">E.M.Prof. Osvaldo Alves Ferreira</option><option value="jm-logo.png">E.M.E. F. Joaquim Mendonça</option></select></div>
                     <div class="coluna"><label>Série:</label><select><option value="">Selecione...</option><option>Berçário I</option><option>Berçário II</option><option>Maternal I</option><option>Maternal II</option><option>PRÉ I</option><option>PRÉ II</option><option>1º ANO</option><option>2º ANO</option><option>3º ANO</option><option>4º ANO</option><option>5º ANO</option><option>6º ANO</option><option>7º ANO</option><option>8º ANO</option><option>9º ANO</option></select></div>
@@ -52,7 +55,7 @@
             <label>ORGANIZAÇÃO E AUTONOMIA</label><table><tr><th>Habilidade</th><th>Não realiza</th><th>Em dev.</th><th>Sim</th></tr><tr><td>Organiza materiais</td><td><input type="radio" name="o1"></td><td><input type="radio" name="o1"></td><td><input type="radio" name="o1"></td></tr><tr><td>Inicia atividade sozinho</td><td><input type="radio" name="o2"></td><td><input type="radio" name="o2"></td><td><input type="radio" name="o2"></td></tr><tr><td>Mantém atenção</td><td><input type="radio" name="o3"></td><td><input type="radio" name="o3"></td><td><input type="radio" name="o3"></td></tr><tr><td>Finaliza tarefas</td><td><input type="radio" name="o4"></td><td><input type="radio" name="o4"></td><td><input type="radio" name="o4"></td></tr></table>
             <label>HABILIDADES SOCIOEMOCIONAIS</label><table><tr><th>Habilidade</th><th>Não realiza</th><th>Em dev.</th><th>Sim</th></tr><tr><td>Respeita combinados</td><td><input type="radio" name="s1"></td><td><input type="radio" name="s1"></td><td><input type="radio" name="s1"></td></tr><tr><td>Trabalha em grupo</td><td><input type="radio" name="s2"></td><td><input type="radio" name="s2"></td><td><input type="radio" name="s2"></td></tr><tr><td>Pede ajuda quando necessário</td><td><input type="radio" name="s3"></td><td><input type="radio" name="s3"></td><td><input type="radio" name="s3"></td></tr><tr><td>Lida com frustração</td><td><input type="radio" name="s4"></td><td><input type="radio" name="s4"></td><td><input type="radio" name="s4"></td></tr></table>
             <div class="form-group"><label>3. Estratégias Pedagógicas:</label><div class="checkbox-group"><label><input type="checkbox"> Atividades/avaliações adaptadas</label><label><input type="checkbox"> Atividades/avaliações flexibilizadas</label><label><input type="checkbox"> Redução de quantidade</label><label><input type="checkbox"> Apoio visual</label><label><input type="checkbox"> Mediação individual</label><label><input type="checkbox"> Tempo ampliado</label><label><input type="checkbox"> Outro: <input type="text" style="width: auto;"></label></div></div>
-            <div class="form-group"><label>4. Reavaliação</label><div style="width: 200px;"><input type="text" placeholder="DD/MM/AAAA" maxlength="10" oninput="mascaraData(this)"></div></div>
+            <div class="form-group"><label>4. Reavaliação</label><div style="width: 200px;"><input type="text" placeholder="DD/MM/AAAA" maxlength="10" oninput="DocumentFormSystem.maskDate(this)"></div></div>
         </div>
         
         <div class="no-print-controls" style="margin-top: 20px;">
@@ -68,22 +71,21 @@
             <button onclick="baixarPDF('Portugues_Inicial.pdf')" class="btn btn-pdf">Baixar e Enviar PDF</button>
             <button onclick="enviarEmail()" class="btn btn-pdf">Enviar por E-mail</button>
         </div>
+        <div id="status-envio" class="folha-a4" style="display: none; margin-top: 20px; padding: 18px;"></div>
+    </div>
     </div>
 
     <script>
-        function mascaraData(input) { let v = input.value.replace(/\D/g, ''); if (v.length > 2) v = v.substring(0, 2) + '/' + v.substring(2); if (v.length > 5) v = v.substring(0, 5) + '/' + v.substring(5, 9); input.value = v; }
-        function gerarEspelho() {
-            const form = document.getElementById('formulario-base'); const previewContainer = document.getElementById('documento-final-pdf'); const clone = form.cloneNode(true); clone.id = "conteudo-limpo";
-            const inputsOriginais = form.querySelectorAll('input[type="text"]'); const inputsClonados = clone.querySelectorAll('input[type="text"]'); inputsClonados.forEach((input, i) => { const span = document.createElement('span'); span.className = 'texto-injetado'; span.innerText = inputsOriginais[i].value || '___________________'; input.parentNode.replaceChild(span, input); });
-            const selectsOriginais = form.querySelectorAll('select'); const selectsClonados = clone.querySelectorAll('select'); let escolaImg = ""; selectsClonados.forEach((select, i) => { const span = document.createElement('span'); span.className = 'texto-injetado'; const original = selectsOriginais[i]; if (original.id === 'select-escola') { escolaImg = original.value; } span.innerText = original.selectedIndex > 0 ? original.options[original.selectedIndex].text : '___________________'; select.parentNode.replaceChild(span, select); });
-            const checksOriginais = form.querySelectorAll('input[type="checkbox"], input[type="radio"]'); const checksClonados = clone.querySelectorAll('input[type="checkbox"], input[type="radio"]'); checksClonados.forEach((chk, i) => { const span = document.createElement('span'); span.className = 'check-injetado'; span.innerText = checksOriginais[i].checked ? '[ X ]' : '[   ]'; chk.parentNode.replaceChild(span, chk); });
-            const d = new Date(); let dataExtenso = d.toLocaleDateString('pt-BR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }); dataExtenso = dataExtenso.charAt(0).toUpperCase() + dataExtenso.slice(1);
-            clone.insertAdjacentHTML('beforeend', `<div class="rodape-oficial"><div class="logos-rodape"><img src="orindiuva-logo.png" alt="Prefeitura"><img src="sme-logo.png" alt="SME"><img src="logo-naee-2.png" alt="NAEE">${escolaImg ? '<img src="' + escolaImg + '" alt="Escola">' : ''}</div><div class="data-hora-rodape">Documento gerado pelo sistema NAEE em: ${dataExtenso} as ${d.toLocaleTimeString('pt-BR')}</div></div>`);
-            previewContainer.innerHTML = ''; previewContainer.appendChild(clone); document.getElementById('tela-edicao').style.display = 'none'; document.getElementById('tela-preview').style.display = 'block'; window.scrollTo(0,0);
-        }
-        function voltarEdicao() { document.getElementById('tela-preview').style.display = 'none'; document.getElementById('tela-edicao').style.display = 'block'; }
-        function baixarPDF(nomeArquivo) { html2pdf().set({ margin: 10, filename: nomeArquivo, pagebreak: { mode: ['avoid-all', 'css', 'legacy'] } }).from(document.getElementById('documento-final-pdf')).save(); }
-        function enviarEmail() { window.location.href = "mailto:naee@orindiuva-edu.com?subject=Novo Documento NAEE&body=Ola,%0A%0ASegue em anexo o documento preenchido.%0A(Lembre-se de anexar o PDF baixado)%0A%0AAtenciosamente."; alert("Lembre-se de anexar o PDF salvo ao e-mail!"); }
+        DocumentFormSystem.init({
+            fileName: 'Portugues_Inicial.pdf',
+            fileNameBase: 'Portugues_Inicial',
+            emailTo: 'naee@orindiuva-edu.com',
+            emailSubject: 'Monitoramento de Portugues preenchido - Sistema NAEE'
+        });
+        function gerarEspelho() { DocumentFormSystem.buildPreview(); }
+        function voltarEdicao() { DocumentFormSystem.backToEdit(); }
+        function baixarPDF() { DocumentFormSystem.downloadPdf(); }
+        function enviarEmail() { DocumentFormSystem.sendEmail(); }
     </script>
 </body>
 </html>

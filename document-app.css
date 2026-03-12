@@ -1,0 +1,157 @@
+body.menu-page,
+body.form-page {
+  font-family: Arial, sans-serif;
+  background: #f4f7f6;
+  color: #333;
+}
+
+body.menu-page {
+  margin: 0;
+  padding: 20px;
+}
+
+body.form-page {
+  margin: 0;
+  padding: 20px;
+}
+
+.dashboard-shell,
+.form-shell {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.menu-simple {
+  background: #fff;
+  padding: 32px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.menu-simple .logo-principal {
+  max-width: 220px;
+  margin-bottom: 12px;
+}
+
+.menu-simple h1 {
+  margin: 10px 0 6px;
+  font-size: 28px;
+  color: #2f6f4f;
+}
+
+.menu-simple p {
+  margin: 0 0 24px;
+  color: #666;
+}
+
+.menu-list {
+  display: grid;
+  gap: 12px;
+}
+
+.menu-list a {
+  display: block;
+  text-decoration: none;
+  background: #4caf50;
+  color: #fff;
+  padding: 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: background 0.2s ease;
+}
+
+.menu-list a:hover {
+  background: #449d48;
+}
+
+.brand-strip {
+  margin-top: 28px;
+  padding-top: 18px;
+  border-top: 2px solid #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.brand-strip img {
+  max-height: 74px;
+}
+
+.form-shell .folha-a4 {
+  border-radius: 8px;
+}
+
+.no-print-controls {
+  position: static !important;
+  transform: none !important;
+  width: auto !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn {
+  min-width: 200px;
+  padding: 14px 18px;
+  border: none;
+  border-radius: 6px !important;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #fff;
+}
+
+.btn-back {
+  background: #6c757d;
+}
+
+.btn-preview {
+  background: #008cba;
+}
+
+.btn-pdf {
+  background: #4caf50;
+}
+
+.btn:hover {
+  opacity: 0.92;
+}
+
+#status-envio {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 600px) {
+  body.menu-page,
+  body.form-page {
+    padding: 12px;
+  }
+
+  .menu-simple {
+    padding: 20px;
+  }
+
+  .menu-simple h1 {
+    font-size: 24px;
+  }
+
+  .no-print-controls {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    min-width: 100%;
+  }
+}
